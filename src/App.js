@@ -1,23 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { Route, Switch} from 'react-router-dom';
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 
-function App() {
+import routes from './routes';
+import './App.css';
+import Header from './components/Header';
+
+const App = () => {
+
+  const showMainContent = () => {
+    let result = null;
+    if (routes.length > 0) {
+      result = routes.map(route => {
+        return (
+          <Route
+            // key={index}
+            key={route.path}
+            path={route.path}
+            exact={route.exact}
+            component={route.main}
+          />
+        );
+      });
+    }
+
+    return <Switch>{result}</Switch>;
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Header />
+      <div className="mt-5">{showMainContent()}</div> 
     </div>
   );
 }
